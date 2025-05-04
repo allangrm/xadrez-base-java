@@ -44,9 +44,12 @@ public class PartidaXadrez {
         return pecaCapturada;
     }
 
-    private void validarPosicaoOrigem(Posicao posicao){
+    private void validarPosicaoOrigem(Posicao posicao){             //verifica se tem peça na posição informada
         if (!tabuleiro.posicaoOcupada(posicao)){
             throw new XadrezException("Não há nenhuma peça nessa posição");
+        }
+        if(!tabuleiro.peca(posicao).existeMovimentoPossivel()){
+            throw new XadrezException("Não existe movimentos possíveis para a peça escolhida");
         }
     }
 
