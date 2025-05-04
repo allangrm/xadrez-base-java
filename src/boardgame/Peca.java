@@ -13,11 +13,11 @@ public abstract class Peca {
     public abstract boolean[][] movimentosPossiveis();
 
     public boolean movimentoPossivel (Posicao posicao){
-        return movimentosPossiveis()[posicao.getLinha()][posicao.getColuna()]; //metodo concreto que utiliza um metodo abstrato
+        return movimentosPossiveis()[posicao.getLinha()][posicao.getColuna()];  //metodo concreto que utiliza um metodo abstrato
     }
 
-    public boolean existeMovimentoPossivel(){                                //chama o metodo abstrato para procurar na matriz se há
-        boolean[][] matriz = movimentosPossiveis();                        //pelo menos uma posição verdadeira
+    public boolean existeMovimentoPossivel(){                                   //chama o metodo abstrato para procurar na matriz se há
+        boolean[][] matriz = movimentosPossiveis();                             //pelo menos uma posição verdadeira
         for(int i = 0; i < matriz.length; i++){
             for(int j = 0; j < matriz.length; j++){
                 if(matriz[i][j]){
