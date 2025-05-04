@@ -7,10 +7,14 @@ import xadrez.pecas.*;
 
 public class PartidaXadrez {
 
+    private int turno;
+    private Cor jogadorAtual;
     private Tabuleiro tabuleiro;
 
     public PartidaXadrez(){
         tabuleiro = new Tabuleiro(8,8);
+        turno = 1;
+        jogadorAtual = Cor.BRANCO;
         setupInicial();
     }
 
@@ -41,6 +45,7 @@ public class PartidaXadrez {
         validarPosicaoOrigem(origem);
         validarPosicaoDestino(origem, destino);
         Peca pecaCapturada = fazerMovimento(origem, destino);
+        proximoTurno();
         return (PecaXadrez)pecaCapturada;
     }
 
@@ -55,6 +60,9 @@ public class PartidaXadrez {
         if (!tabuleiro.posicaoOcupada(posicao)){
             throw new XadrezException("Não há nenhuma peça nessa posição");
         }
+        if(jogadorAtual != ((PecaXadrez)tabuleiro.peca(posicao)).getCor()){     //verifica se a peça é do jogador do turno atual (downcasting)
+            throw new XadrezException("Essa peça é do adversário!");
+        }
         if(!tabuleiro.peca(posicao).existeMovimentoPossivel()){
             throw new XadrezException("Não existe movimentos possíveis para a peça escolhida");
         }
@@ -64,6 +72,11 @@ public class PartidaXadrez {
         if (!tabuleiro.peca(origem).movimentoPossivel(destino)) {                                       //se para a peça de origem a posição de destino não é um movimento
              throw new XadrezException("A peça escolhida não pode se mover para a posição de destino"); //possível, então não pode ir para lá
         }
+    }
+
+    private void proximoTurno(){
+        turno++;
+        jogadorAtual = (jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
     }
 
     private void setupInicial(){        //colocar pecas no tabuleiro
@@ -90,5 +103,13 @@ public class PartidaXadrez {
         colocarNovaPeca('d', 8, new Dama(tabuleiro, Cor.PRETO));
         colocarNovaPeca('d', 1, new Dama(tabuleiro, Cor.BRANCO));
 
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
+    public Cor getJogadorAtual() {
+        return jogadorAtual;
     }
 }

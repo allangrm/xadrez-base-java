@@ -1,5 +1,6 @@
 package application;
 
+import xadrez.PartidaXadrez;
 import xadrez.PecaXadrez;
 import xadrez.Cor;
 import xadrez.PosicaoXadrez;
@@ -46,6 +47,13 @@ public class UI {
         }
     }
 
+    public static void printPartida(PartidaXadrez partida){
+        printTabuleiro(partida.getPecas());
+        System.out.println();
+        System.out.println("Turno: " + partida.getTurno());
+        System.out.println("Esperando jogador: " + partida.getJogadorAtual());
+    }
+
     public static void printTabuleiro(PecaXadrez[][] pecas){
         for (int i = 0; i < pecas.length; i++){
             System.out.print((8 - i) + " ");
@@ -57,7 +65,7 @@ public class UI {
         System.out.println("  a b c d e f g h");
     }
 
-    public static void printTabuleiro(PecaXadrez[][] pecas, boolean[][] movimentosPossiveis){
+    public static void printTabuleiro(PecaXadrez[][] pecas, boolean[][] movimentosPossiveis){ //printa tabuleiro com possíveis movimentos da peça selecionada
         for (int i = 0; i < pecas.length; i++){
             System.out.print((8 - i) + " ");
             for (int j = 0; j < pecas.length; j++){
