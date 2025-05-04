@@ -5,16 +5,24 @@ import boardgame.Posicao;
 import boardgame.Tabuleiro;
 import xadrez.pecas.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PartidaXadrez {
 
     private int turno;
     private Cor jogadorAtual;
     private Tabuleiro tabuleiro;
 
+    private List<Peca> pecasNoTabuleiro = new ArrayList<>();
+    private List<Peca> pecasCapturadas = new ArrayList<>();
+
+
     public PartidaXadrez(){
         tabuleiro = new Tabuleiro(8,8);
         turno = 1;
         jogadorAtual = Cor.BRANCO;
+
         setupInicial();
     }
 
@@ -31,6 +39,7 @@ public class PartidaXadrez {
 
     private void colocarNovaPeca(char coluna, int linha, PecaXadrez peca){                      //colocar peças a partir da coordenada do xadrez
         tabuleiro.colocarPeca(peca, new PosicaoXadrez(coluna,linha).toPosicao());
+        pecasNoTabuleiro.add(peca);                                                             //adiciona na lista de pecas que estao atualmente no tabuleiro
     }
 
     public boolean[][] movimentosPossiveis(PosicaoXadrez posicaoOrigem){
@@ -53,6 +62,12 @@ public class PartidaXadrez {
         Peca p = tabuleiro.removerPeca(origem);                     //remove a peça da origem para movimentá-la
         Peca pecaCapturada = tabuleiro.removerPeca(destino);        //remove a peça da posição de destino(caso de captura) caso haja peça no destino
         tabuleiro.colocarPeca(p, destino);                          //coloca a peca instanciada(selecionada para movimento) na posição designada
+
+        if (pecaCapturada != null){                                 //caso o movimento feito capture uma peça as listas serão atualizadas
+            pecasNoTabuleiro.remove(pecaCapturada);
+            pecasCapturadas.add(pecaCapturada);
+        }
+
         return pecaCapturada;
     }
 
