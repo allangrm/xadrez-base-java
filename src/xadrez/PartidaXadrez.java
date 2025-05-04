@@ -1,5 +1,6 @@
 package xadrez;
 
+import boardgame.Peca;
 import boardgame.Posicao;
 import boardgame.Tabuleiro;
 import xadrez.pecas.*;
@@ -24,8 +25,29 @@ public class PartidaXadrez {
         return matriz;
     }
 
-    private void colocarNovaPeca(char coluna, int linha, PecaXadrez peca){ //colocar peças a partir da coordenada do xadrez
+    private void colocarNovaPeca(char coluna, int linha, PecaXadrez peca){                      //colocar peças a partir da coordenada do xadrez
         tabuleiro.colocarPeca(peca, new PosicaoXadrez(coluna,linha).toPosicao());
+    }
+
+    public PecaXadrez performarMovimentoPeca(PosicaoXadrez posicaoOrigem, PosicaoXadrez posicaoDestino){
+        Posicao origem = posicaoOrigem.toPosicao();                                             //converte as duas posições para uma posição da matriz
+        Posicao destino = posicaoDestino.toPosicao();
+        validarPosicaoOrigem(origem);
+        Peca pecaCapturada = fazerMovimento(origem, destino);
+        return (PecaXadrez)pecaCapturada;
+    }
+
+    private Peca fazerMovimento(Posicao origem, Posicao destino){
+        Peca p = tabuleiro.removerPeca(origem);                     //remove a peça da origem para movimentá-la
+        Peca pecaCapturada = tabuleiro.removerPeca(destino);        //remove a peça da posição de destino(caso de captura) caso haja peça no destino
+        tabuleiro.colocarPeca(p, destino);                          //coloca a peca instanciada(selecionada para movimento) na posição designada
+        return pecaCapturada;
+    }
+
+    private void validarPosicaoOrigem(Posicao posicao){
+        if (!tabuleiro.posicaoOcupada(posicao)){
+            throw new XadrezException("Não há nenhuma peça nessa posição");
+        }
     }
 
     private void setupInicial(){        //colocar pecas no tabuleiro

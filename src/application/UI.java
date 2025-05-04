@@ -2,6 +2,10 @@ package application;
 
 import xadrez.PecaXadrez;
 import xadrez.Cor;
+import xadrez.PosicaoXadrez;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class UI {
 
@@ -24,6 +28,18 @@ public class UI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    public static PosicaoXadrez lerPosicaoXadrez(Scanner sc){
+        try {
+            String s = sc.nextLine();
+            char coluna = s.charAt(0);                                  //coluna é o primeiro caractere ex.: a1, a é coluna
+            int linha = Integer.parseInt(s.substring(1));     //recorta e pega so a linha, ou segundo caractere, que é um inteiro
+            return new PosicaoXadrez(coluna, linha);
+        }
+        catch (RuntimeException e){
+            throw new InputMismatchException("Erro ao ler a posição solicitada. Valores válidos vão de a1 até h8");
+        }
+    }
+
     public static void printTabuleiro(PecaXadrez[][] pecas){
         for (int i = 0; i < pecas.length; i++){
             System.out.print((8 - i) + " ");
@@ -34,6 +50,7 @@ public class UI {
         }
         System.out.println("  a b c d e f g h");
     }
+
     private static void printPeca(PecaXadrez peca){
         if (peca == null) {
             System.out.print("-");
@@ -43,7 +60,7 @@ public class UI {
                 System.out.print(ANSI_WHITE + peca + ANSI_RESET);
             }
             else {
-                System.out.print(ANSI_YELLOW + peca + ANSI_RESET);
+                System.out.print(ANSI_BLUE + peca + ANSI_RESET);
             }
         }
         System.out.print(" ");

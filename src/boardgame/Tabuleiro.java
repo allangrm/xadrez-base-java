@@ -15,14 +15,14 @@ public class Tabuleiro {
         pecas = new Peca[linhas][colunas];
     }
 
-    public Peca peca(int linha, int coluna){ //retorna peca por linha e colunas
+    public Peca peca(int linha, int coluna){ //retorna peça por linha e colunas, flexibilidade para a classe Peca, sem precisar instanciar um objeto de Posicao
         if(!posicaoExiste(linha,coluna)){
             throw new TabuleiroExecption("Posição não está no tabuleiro");
         }
         return pecas[linha][coluna];
     }
 
-    public Peca peca(Posicao posicao){  //retorna peca pela sua posicao
+    public Peca peca(Posicao posicao){  //retorna peça pela sua posição
         if(!posicaoExiste(posicao)){
             throw new TabuleiroExecption("Posição não está no tabuleiro");
         }
@@ -36,6 +36,19 @@ public class Tabuleiro {
         pecas[posicao.getLinha()][posicao.getColuna()] = peca;  //pecas instanciadas somente no tabuleiro
         peca.posicao = posicao;                                 //posicao da classe Peca(super) é atribuida com uma nova
                                                                 //posicao (ou posicao inicial)
+    }
+
+    public Peca removerPeca(Posicao posicao){
+        if(!posicaoExiste(posicao)){
+            throw new TabuleiroExecption("Posição não está no tabuleiro");
+        }
+        if(peca(posicao) == null){
+            return null;
+        }
+        Peca auxiliar = peca(posicao);
+        auxiliar.posicao = null;                                            //peça é retirada
+        pecas[posicao.getLinha()][posicao.getColuna()] = null;              //a matriz de pecas na linha e coluna específica ficará nulo
+        return auxiliar;                                                    // ou seja, não terá peça nessa posição
     }
 
     private boolean posicaoExiste(int linha, int coluna){       //existe quando esta dentro do tabuleiro
