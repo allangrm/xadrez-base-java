@@ -18,8 +18,8 @@ public class PosicaoXadrez {
         return new Posicao(8 - linha, coluna - 'a');
     }
 
-    protected static PosicaoXadrez fromPosicao(Posicao posicao){
-        return new PosicaoXadrez((char)('a' - posicao.getColuna()), 8 - posicao.getLinha());
+    protected static PosicaoXadrez fromPosicao(Posicao posicao){            //pega uma posição da matriz e transforma no formato de xadrez (a1-h8)
+        return new PosicaoXadrez((char)('a' + posicao.getColuna()), 8 - posicao.getLinha());
     }
 
     @Override
