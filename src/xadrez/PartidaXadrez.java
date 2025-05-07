@@ -15,6 +15,7 @@ public class PartidaXadrez {
     private Cor jogadorAtual;
     private Tabuleiro tabuleiro;
     private boolean xeque;
+    private boolean xequeMate;
 
     private List<Peca> pecasNoTabuleiro = new ArrayList<>();
     private List<Peca> pecasCapturadas = new ArrayList<>();
@@ -61,8 +62,14 @@ public class PartidaXadrez {
             desfazerMovimento(origem, destino, pecaCapturada);
             throw new XadrezException("Você não pode se colocar em xeque!");
         }
+
         xeque = (testarXeque(oponente(jogadorAtual))) ? true : false; //se o testar xeque do oponente do jogador atual for true então a partida está em xeque
-        proximoTurno();
+
+        if(testarXequeMate(oponente(jogadorAtual))){
+            xequeMate = true;
+        }else{
+            proximoTurno();
+        }
         return (PecaXadrez)pecaCapturada;
     }
 
@@ -112,8 +119,8 @@ public class PartidaXadrez {
         jogadorAtual = (jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
     }
 
-    private Cor oponente(Cor cor){                          //se a cor do argumento for branca(jogador) retorna preto(oponente)
-        return(cor == Cor.PRETO) ? Cor.PRETO : Cor.BRANCO;
+    private Cor oponente(Cor cor){
+        return(cor == Cor.PRETO) ? Cor.PRETO : Cor.BRANCO; //se a cor do argumento for branca(jogador) retorna preto(oponente)
     }
 
     private PecaXadrez rei(Cor cor){
@@ -136,6 +143,31 @@ public class PartidaXadrez {
             }
         }
         return false;
+    }
+
+    private boolean testarXequeMate(Cor cor){
+        if(!testarXeque(cor)){
+            return false;
+        }
+        List<Peca> lista = pecasNoTabuleiro.stream().filter(x -> ((PecaXadrez)x).getCor() == oponente(cor)).collect(Collectors.toList()); //downcasting
+        for(Peca p : lista){
+            boolean[][] matriz = p.movimentosPossiveis();
+            for(int i = 0; i < tabuleiro.getLinhas(); i++){
+                for(int j = 0; j < tabuleiro.getColunas(); j++){
+                    if(matriz[i][j]){                                           //testa se o movimento possivel encontrado de cada peça tira o rei do xeque
+                        Posicao origem = ((PecaXadrez)p).getPosicaoXadrez().toPosicao();
+                        Posicao destino = new Posicao(i,j);
+                        Peca pecaCapturada = fazerMovimento(origem, destino);   //faz um movimento automatico e já checa se o movimento tirou o rei do xeque
+                        boolean testarXeque = testarXeque(cor);                 //testa se o rei da cor ainda está em xeque
+                        desfazerMovimento(origem, destino, pecaCapturada);                                    //desfaz o movimento de teste
+                        if (!testarXeque){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private void setupInicial(){        //colocar pecas no tabuleiro
@@ -174,5 +206,9 @@ public class PartidaXadrez {
 
     public boolean isXeque() {
         return xeque;
+    }
+
+    public boolean isXequeMate() {
+        return xequeMate;
     }
 }

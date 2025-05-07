@@ -50,16 +50,21 @@ public class UI {
         }
     }
 
-    public static void printPartida(PartidaXadrez partida, List<PecaXadrez> capturadas){
+    public static void printPartida(PartidaXadrez partida, List<PecaXadrez> capturadas) {
         printTabuleiro(partida.getPecas());
         System.out.println();
         printPecasCapturadas(capturadas);
         System.out.println("Turno: " + partida.getTurno());
-        System.out.println("Esperando jogador: " + partida.getJogadorAtual());
-        if(partida.isXeque()){
-            System.out.println("XEQUE!");
-        }
+        if (!partida.isXequeMate()) {
+            System.out.println("Esperando jogador: " + partida.getJogadorAtual());
+            if (partida.isXeque()) {
+                System.out.println("XEQUE!");
+            }
 
+        } else {
+            System.out.println("XEUQE MATE!");
+            System.out.println("Ganhador: " + partida.getJogadorAtual());
+        }
     }
 
     public static void printTabuleiro(PecaXadrez[][] pecas){

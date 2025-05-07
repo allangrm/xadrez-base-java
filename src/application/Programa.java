@@ -15,9 +15,9 @@ public class Programa {
 
         Scanner sc = new Scanner(System.in);
         PartidaXadrez partida = new PartidaXadrez();
-        List<PecaXadrez> capturadas = new ArrayList<>();  //tamebm será passada como argumento na hora da impressao da partida
+        List<PecaXadrez> capturadas = new ArrayList<>();  //tambem será passada como argumento na hora da impressao da partida
 
-        while(true) {
+        while(!partida.isXequeMate()) {
             try{
                 UI.limparTela();
                 UI.printPartida(partida, capturadas);
@@ -49,5 +49,7 @@ public class Programa {
                 sc.nextLine();
             }
         }
+        UI.limparTela();
+        UI.printPartida(partida, capturadas);
     }
 }

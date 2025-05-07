@@ -56,7 +56,6 @@ public class Tabuleiro {
     }
 
     public boolean posicaoExiste(Posicao posicao){
-
         return posicaoExiste(posicao.getLinha(), posicao.getColuna());
     }
 
