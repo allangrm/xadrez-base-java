@@ -1,5 +1,6 @@
 package xadrez.pecas;
 
+import boardgame.Posicao;
 import boardgame.Tabuleiro;
 import xadrez.Cor;
 import xadrez.PecaXadrez;
@@ -16,6 +17,49 @@ public class Bispo extends PecaXadrez {
     @Override
     public boolean[][] movimentosPossiveis() {
         boolean[][] matriz = new boolean[getTabuleiro().getLinhas()][getTabuleiro().getColunas()];
+
+        Posicao p = new Posicao(0,0);
+
+        //noroeste
+        p.setValor(posicao.getLinha() - 1, posicao.getColuna() - 1);
+        while (getTabuleiro().posicaoExiste(p) && !getTabuleiro().posicaoOcupada(p)) { //checa se a posição existe e não está ocupada
+            matriz[p.getLinha()][p.getColuna()] = true;
+            p.setValor(p.getLinha() - 1, p.getColuna() - 1);
+        }
+        if(getTabuleiro().posicaoExiste(p) && temPecaAdversaria(p)){
+            matriz[p.getLinha()][p.getColuna()] = true;
+        }
+
+        //nordeste
+        p.setValor(posicao.getLinha() - 1, posicao.getColuna() + 1);
+        while (getTabuleiro().posicaoExiste(p) && !getTabuleiro().posicaoOcupada(p)) { //checa se a posição existe e não está ocupada
+            matriz[p.getLinha()][p.getColuna()] = true;
+            p.setValor(p.getLinha() - 1, p.getColuna() + 1);
+        }
+        if(getTabuleiro().posicaoExiste(p) && temPecaAdversaria(p)){
+            matriz[p.getLinha()][p.getColuna()] = true;
+        }
+
+        //sudeste
+        p.setValor(posicao.getLinha() + 1 , posicao.getColuna() + 1);
+        while (getTabuleiro().posicaoExiste(p) && !getTabuleiro().posicaoOcupada(p)) { //checa se a posição existe e não está ocupada
+            matriz[p.getLinha()][p.getColuna()] = true;
+            p.setValor(p.getLinha() + 1, p.getColuna() + 1);
+        }
+        if(getTabuleiro().posicaoExiste(p) && temPecaAdversaria(p)){
+            matriz[p.getLinha()][p.getColuna()] = true;
+        }
+
+        //sudoeste
+        p.setValor(posicao.getLinha() + 1, posicao.getColuna() - 1);
+        while (getTabuleiro().posicaoExiste(p) && !getTabuleiro().posicaoOcupada(p)) { //checa se a posição existe e não está ocupada
+            matriz[p.getLinha()][p.getColuna()] = true;
+            p.setValor(p.getLinha() + 1, p.getColuna() - 1);
+        }
+        if(getTabuleiro().posicaoExiste(p) && temPecaAdversaria(p)){
+            matriz[p.getLinha()][p.getColuna()] = true;
+        }
+
         return matriz;
     }
 }
