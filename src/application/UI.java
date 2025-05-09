@@ -62,7 +62,7 @@ public class UI {
             }
 
         } else {
-            System.out.println("XEUQE MATE!");
+            System.out.println("XEQUE MATE!");
             System.out.println("Ganhador: " + partida.getJogadorAtual());
         }
     }

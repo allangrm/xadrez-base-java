@@ -26,6 +26,44 @@ public class Peao extends PecaXadrez {
 
         Posicao p = new Posicao(0,0);
 
+        if(getCor() == Cor.BRANCO){
+            p.setValor(posicao.getLinha() - 1 , posicao.getColuna());
+            if(getTabuleiro().posicaoExiste(p) && !getTabuleiro().posicaoOcupada(p)){
+                matriz[p.getLinha()][p.getColuna()] = true;
+            }
+            p.setValor(posicao.getLinha() - 2 , posicao.getColuna());
+            Posicao p2 = new Posicao(posicao.getLinha() - 1 , posicao.getColuna());
+            if(getTabuleiro().posicaoExiste(p) && !getTabuleiro().posicaoOcupada(p) && getTabuleiro().posicaoExiste(p2) && !getTabuleiro().posicaoOcupada(p2) && getMovimentosCount() == 0){
+                matriz[p.getLinha()][p.getColuna()] = true;
+            }
+            p.setValor(posicao.getLinha() - 1 , posicao.getColuna() - 1);
+            if(getTabuleiro().posicaoExiste(p) && temPecaAdversaria(p)){
+                matriz[p.getLinha()][p.getColuna()] = true;
+            }
+            p.setValor(posicao.getLinha() - 1 , posicao.getColuna() + 1);
+            if(getTabuleiro().posicaoExiste(p) && temPecaAdversaria(p)){
+                matriz[p.getLinha()][p.getColuna()] = true;
+            }
+        }else {p.setValor(posicao.getLinha() + 1 , posicao.getColuna());
+            if(getTabuleiro().posicaoExiste(p) && !getTabuleiro().posicaoOcupada(p)){
+                matriz[p.getLinha()][p.getColuna()] = true;
+            }
+            p.setValor(posicao.getLinha() + 2 , posicao.getColuna());
+            Posicao p2 = new Posicao(posicao.getLinha() + 1 , posicao.getColuna());
+            if(getTabuleiro().posicaoExiste(p) && !getTabuleiro().posicaoOcupada(p) && getTabuleiro().posicaoExiste(p2) && !getTabuleiro().posicaoOcupada(p2) && getMovimentosCount() == 0){
+                matriz[p.getLinha()][p.getColuna()] = true;
+            }
+            p.setValor(posicao.getLinha() + 1 , posicao.getColuna() - 1);
+            if(getTabuleiro().posicaoExiste(p) && temPecaAdversaria(p)){
+                matriz[p.getLinha()][p.getColuna()] = true;
+            }
+            p.setValor(posicao.getLinha() + 1 , posicao.getColuna() + 1);
+            if(getTabuleiro().posicaoExiste(p) && temPecaAdversaria(p)){
+                matriz[p.getLinha()][p.getColuna()] = true;
+            }
+
+        }
+
         return matriz;
     }
 }
